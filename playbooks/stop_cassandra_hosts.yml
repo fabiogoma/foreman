@@ -8,6 +8,6 @@
     - name: Stop cassandra hosts
       virt:
         name: "{{ item }}"
-        state: stop
+        state: shutdown
         uri: 'qemu+ssh://fabiom@libvirt.example.com/system'
       loop: "{{ groups['cassandra'] }}"
