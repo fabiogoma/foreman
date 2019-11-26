@@ -2,8 +2,4 @@
 localhost   ansible_connection=local
 
 [cassandra]
-cassandra-node1.example.com
-cassandra-node2.example.com
-cassandra-node3.example.com
-cassandra-node4.example.com
-cassandra-node5.example.com
+cassandra-node[1:5].example.com
