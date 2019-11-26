@@ -1,13 +1,14 @@
 ---
-hosts: localhost
-become: false
-gather_facts: false
+- name: VM startup
+  hosts: localhost
+  become: false
+  gather_facts: false
 
-tasks:
-  - name: start cassandra hosts
-    virt:
-      name: "{{ item }}"
-      state: running
-      uri: 'qemu+ssh://fabiom@libvirt.example.com/system'
-    loop:
-      - "{{ groups['cassandra'] }}"
+  tasks:
+    - name: Start cassandra hosts
+      virt:
+        name: "{{ item }}"
+        state: running
+        uri: 'qemu+ssh://fabiom@libvirt.example.com/system'
+      loop:
+        - "{{ groups['cassandra'] }}"
