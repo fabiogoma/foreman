@@ -1,4 +1,12 @@
 ---
+- name: Add datastax repository
+  yum_repository:
+    name: datastax
+    description: DataStax Repo for DataStax Enterprise
+    file: datastax
+    baseurl: https://rpm.datastax.com/enterprise
+    gpgcheck: no
+
 - name: Install dependecies
   yum:
     name:
@@ -6,6 +14,7 @@
       - mlocate
       - bash-completion
       - NetworkManager
+      - lvm2
     state: latest
   register: install_dependecies_packages
   until: install_dependecies_packages is not failed
@@ -15,14 +24,6 @@
   systemd:
     name: NetworkManager
     state: started
-
-- name: Add datastax repository
-  yum_repository:
-    name: datastax
-    description: DataStax Repo for DataStax Enterprise
-    file: datastax
-    baseurl: https://rpm.datastax.com/enterprise
-    gpgcheck: no
 
 - name: Setup kernel parameters
   sysctl:
@@ -70,3 +71,16 @@
     path: /etc/rc.local
     insertafter: '^touch /var/lock/subsys/local'
     line: echo never > /sys/kernel/mm/transparent_hugepage/defrag
+
+- name: Create a cassandra system group
+  group:
+    name: cassandra
+    state: present
+    system: true
+
+- name: Create a cassandra system user
+  user:
+    name: cassandra
+    shell: /bin/bash
+    groups: cassandra
+    system: true
