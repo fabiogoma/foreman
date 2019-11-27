@@ -1,4 +1,2 @@
 ---
-- name: Initial test
-  debug:
-    msg: "{{ ansible_hostname }}"
+- import_tasks: 00-prerequisites.yml
