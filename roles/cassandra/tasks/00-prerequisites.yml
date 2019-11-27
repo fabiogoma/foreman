@@ -7,6 +7,9 @@
       - bash-completion
       - NetworkManager
     state: latest
+  register: install_dependecies_packages
+  until: install_dependecies_packages is not failed
+  retries: 5
 
 - name: Start NetworkManager service
   systemd:
