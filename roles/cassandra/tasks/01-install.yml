@@ -3,7 +3,7 @@
   yum:
     name:
       - dse-full-5.1.17-1
-      - dse-demos
+      - dse-demos-5.1.17-1
 
 # - name: Start cassandra service
 #   systemd:
