@@ -1,0 +1,4 @@
+---
+- name: Initial test
+  debug:
+    msg: "{{ ansible_hostname }}"
