@@ -1,0 +1,47 @@
+---
+- name: Setup kernel parameters
+  sysctl:
+    name: "{{ item.parameter }}"
+    value: "{{ item.value }}"
+    sysctl_set: true
+    state: present
+    reload: true
+  loop:
+    - { parameter: 'net.ipv4.tcp_keepalive_time', value: '60' }
+    - { parameter: 'net.ipv4.tcp_keepalive_probes', value: '3' }
+    - { parameter: 'net.ipv4.tcp_keepalive_intvl', value: '10' }
+    - { parameter: 'net.core.rmem_max', value: '16777216' }
+    - { parameter: 'net.core.wmem_max', value: '16777216' }
+    - { parameter: 'net.core.rmem_default', value: '16777216' }
+    - { parameter: 'net.core.wmem_default', value: '16777216' }
+    - { parameter: 'net.core.optmem_max', value: '40960' }
+    - { parameter: 'net.ipv4.tcp_rmem', value: '4096 87380 16777216' }
+    - { parameter: 'net.ipv4.tcp_wmem', value: '4096 65536 16777216' }
+    - { parameter: 'vm.zone_reclaim_mode', value: '0' }
+    - { parameter: 'vm.swappiness', value: '1' }
+
+- name: Add or modify memlock, both soft and hard, limit for the user james with a comment.
+  pam_limits:
+    domain: cassandra
+    limit_type: '-'
+    limit_item: "{{ item.parameter }}"
+    value: "{{ item.value }}"
+  loop:
+    - { parameter: 'memlock', value: 'unlimited' }
+    - { parameter: 'nofile', value: '1048576' }
+    - { parameter: 'nproc', value: '32768' }
+    - { parameter: 'as', value: 'unlimited' }
+
+- name: Get current read-ahead value
+  command: blockdev --getra /dev/vdc
+  register: read_ahead_result
+
+- name: Set a low value to read-ahead
+  command: blockdev --setra 128 /dev/vdc
+  when: read_ahead_result.stdout|int > 129
+
+- name: Disable defrag on transparent hugepages
+  lineinfile:
+    path: /etc/rc.local
+    insertafter: '^touch /var/lock/subsys/local'
+    line: echo never > /sys/kernel/mm/transparent_hugepage/defrag

@@ -1,0 +1,11 @@
+---
+- name: Install cassandra
+  yum:
+    name:
+      - dse-full-5.1.17-1
+      - dse-demos
+
+# - name: Start cassandra service
+#   systemd:
+#     name: dse
+#     state: started
