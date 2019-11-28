@@ -35,14 +35,14 @@
   until: install_dependecies_packages is not failed
   retries: 5
 
-- name: Start and enable services
+- name: Put services on desired state
   systemd:
-    name: "{{ item }}"
-    state: started
-    enabled: true
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    enabled: "{{ item.enabled }}"
   loop:
-    - NetworkManager
-    - firewalld
+    - { name: 'NetworkManager', state: 'started', enabled: true }
+    - { name: 'firewalld', state: 'stopped', enabled: false }
 
 - name: Setup kernel parameters
   sysctl:
@@ -93,19 +93,19 @@
     insertafter: '^touch /var/lock/subsys/local'
     line: echo never > /sys/kernel/mm/transparent_hugepage/defrag
 
-- name: Enable cassandra ports on firewalld
-  firewalld:
-    port: "{{ item }}/tcp"
-    permanent: true
-    immediate: true
-    state: disabled
-  loop:
-    - 7000
-    - 7001
-    - 7199
-    - 9042
-    - 9160
-    - 9142
+# - name: Enable cassandra ports on firewalld
+#   firewalld:
+#     port: "{{ item }}/tcp"
+#     permanent: true
+#     immediate: true
+#     state: disabled
+#   loop:
+#     - 7000
+#     - 7001
+#     - 7199
+#     - 9042
+#     - 9160
+#     - 9142
 
 - name: Cloud init template to remove FQDN from /etc/hosts
   copy:
