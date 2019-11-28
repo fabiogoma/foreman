@@ -106,3 +106,26 @@
     - 9042
     - 9160
     - 9142
+
+- name: Cloud init template to remove FQDN from /etc/hosts
+  copy:
+    src: hosts.redhat.tmpl
+    dest: /etc/cloud/templates/hosts.redhat.tmpl
+    owner: root
+    group: root
+    mode: 0644
+  register: cloud_init_template_result
+
+- name: Reboot immediately if there was a change.
+  shell: "sleep 5 && reboot"
+  async: 1
+  poll: 0
+  when: cloud_init_template_result is changed
+
+- name: Wait for the reboot to complete if there was a change.
+  wait_for_connection:
+    connect_timeout: 20
+    sleep: 5
+    delay: 5
+    timeout: 300
+  when: cloud_init_template_result is changed
