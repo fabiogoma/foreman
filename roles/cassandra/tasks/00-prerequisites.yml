@@ -63,6 +63,8 @@
     - { parameter: 'net.ipv4.tcp_wmem', value: '4096 65536 16777216' }
     - { parameter: 'vm.zone_reclaim_mode', value: '0' }
     - { parameter: 'vm.swappiness', value: '1' }
+    - { parameter: 'vm.max_map_count', value: '1048575' }
+    
 
 - name: Add or modify memlock, both soft and hard, limit for the user cassandra with a comment.
   pam_limits:
@@ -101,3 +103,4 @@
     - 7001
     - 9042
     - 9160
+    - 7199
