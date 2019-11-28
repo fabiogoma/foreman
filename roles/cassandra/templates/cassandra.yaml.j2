@@ -422,7 +422,7 @@ seed_provider:
       parameters:
           # seeds is actually a comma-delimited list of addresses.
           # Ex: "<ip1>,<ip2>,<ip3>"
-          - seeds: "cassandra-node1.example.com,cassandra-node2.example.com,cassandra-node3.example.com"
+          - seeds: "{{ hostvars['cassandra-node1.example.com']['ansible_eth0']['ipv4']['address'] }},{{ hostvars['cassandra-node2.example.com']['ansible_eth0']['ipv4']['address'] }},{{ hostvars['cassandra-node3.example.com']['ansible_eth0']['ipv4']['address'] }}"
 
 # For workloads with more data than can fit in memory, Cassandra's
 # bottleneck will be reads that need to fetch data from
