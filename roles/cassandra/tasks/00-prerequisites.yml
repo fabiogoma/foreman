@@ -34,10 +34,14 @@
   until: install_dependecies_packages is not failed
   retries: 5
 
-- name: Start NetworkManager service
+- name: Start and enable services
   systemd:
-    name: NetworkManager
+    name: "{{ item }}"
     state: started
+    enabled: true
+  loop:
+    - NetworkManager
+    - firewalld
 
 - name: Setup kernel parameters
   sysctl:
