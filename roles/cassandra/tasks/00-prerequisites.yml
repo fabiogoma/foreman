@@ -7,6 +7,19 @@
     baseurl: https://rpm.datastax.com/enterprise
     gpgcheck: no
 
+- name: Create a cassandra system group
+  group:
+    name: cassandra
+    state: present
+    system: true
+
+- name: Create a cassandra system user
+  user:
+    name: cassandra
+    shell: /bin/bash
+    groups: cassandra
+    system: true
+
 - name: Install dependecies
   yum:
     name:
@@ -46,7 +59,7 @@
     - { parameter: 'vm.zone_reclaim_mode', value: '0' }
     - { parameter: 'vm.swappiness', value: '1' }
 
-- name: Add or modify memlock, both soft and hard, limit for the user james with a comment.
+- name: Add or modify memlock, both soft and hard, limit for the user cassandra with a comment.
   pam_limits:
     domain: cassandra
     limit_type: '-'
@@ -72,15 +85,14 @@
     insertafter: '^touch /var/lock/subsys/local'
     line: echo never > /sys/kernel/mm/transparent_hugepage/defrag
 
-- name: Create a cassandra system group
-  group:
-    name: cassandra
-    state: present
-    system: true
-
-- name: Create a cassandra system user
-  user:
-    name: cassandra
-    shell: /bin/bash
-    groups: cassandra
-    system: true
+- name: Enable cassandra ports on firewalld
+  firewalld:
+    port: "{{ item }}/tcp"
+    permanent: true
+    immediate: true
+    state: disabled
+  loop:
+    - 7000
+    - 7001
+    - 9042
+    - 9160
