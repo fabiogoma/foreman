@@ -29,6 +29,7 @@
       - NetworkManager
       - lvm2
       - firewalld
+      - jemalloc
     state: latest
   register: install_dependecies_packages
   until: install_dependecies_packages is not failed
