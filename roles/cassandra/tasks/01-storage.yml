@@ -16,6 +16,7 @@
     lv: cassandra_lv
     size: 100%FREE
     state: present
+    shrink: false
 
 - name: Initialize logical volume
   filesystem:
