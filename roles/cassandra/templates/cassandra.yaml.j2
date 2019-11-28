@@ -1228,7 +1228,7 @@ gc_warn_threshold_in_ms: 1000
 # Strategy to use for coalescing messages in OutboundTcpConnection.
 # Can be FIXED, MOVINGAVERAGE, TIMEHORIZON, DISABLED.
 # DISABLED by default due to https://issues.apache.org/jira/browse/CASSANDRA-12676
-otc_coalescing_strategy: DISABLED
+otc_coalescing_strategy: FIXED
 
 # How many microseconds to wait for coalescing. For fixed strategy this is the amount of time after the first
 # message is received before it will be sent with any accompanying messages. For moving average this is the
