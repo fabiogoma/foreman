@@ -1,0 +1,16 @@
+---
+- name: Load cassandra configuration from template
+  template:
+    src: cassandra.yaml.j2
+    dest: /etc/dse/cassandra/cassandra.yaml
+    owner: cassandra
+    group: cassandra
+    mode: 0644
+  notify: Reload systemd configuration and restart cassandra
+
+- name: Ensure cassandra is up
+  systemd:
+    name: dse
+    state: started
+    enabled: true
+    daemon_reload: true
