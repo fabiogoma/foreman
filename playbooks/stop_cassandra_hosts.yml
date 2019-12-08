@@ -9,5 +9,5 @@
       virt:
         name: "{{ item }}"
         state: shutdown
-        uri: 'qemu+ssh://fabiom@libvirt.example.com/system'
+        uri: 'qemu+ssh://fabiom@fedora.example.com/system'
       loop: "{{ groups['cassandra'] }}"

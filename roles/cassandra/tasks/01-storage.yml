@@ -1,14 +1,14 @@
 ---
 - name: Create a primary partition
   parted:
-    device: /dev/vdc
+    device: /dev/vdb
     number: 1
     state: present
 
 - name: Create a cassandra volume group
   lvg:
     vg: cassandra_vg
-    pvs: /dev/vdc1
+    pvs: /dev/vdb1
 
 - name: Create a cassandra logical volume
   lvol:

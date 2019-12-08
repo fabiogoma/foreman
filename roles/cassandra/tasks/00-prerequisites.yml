@@ -79,11 +79,11 @@
     - { parameter: 'as', value: 'unlimited' }
 
 - name: Get current read-ahead value
-  command: blockdev --getra /dev/vdc
+  command: blockdev --getra /dev/vdb
   register: read_ahead_result
 
 - name: Set a low value to read-ahead
-  command: blockdev --setra 128 /dev/vdc
+  command: blockdev --setra 128 /dev/vdb
   when: read_ahead_result.stdout|int > 129
 
 - name: Disable defrag on transparent hugepages
@@ -91,20 +91,6 @@
     path: /etc/rc.local
     insertafter: '^touch /var/lock/subsys/local'
     line: echo never > /sys/kernel/mm/transparent_hugepage/defrag
-
-# - name: Enable cassandra ports on firewalld
-#   firewalld:
-#     port: "{{ item }}/tcp"
-#     permanent: true
-#     immediate: true
-#     state: disabled
-#   loop:
-#     - 7000
-#     - 7001
-#     - 7199
-#     - 9042
-#     - 9160
-#     - 9142
 
 - name: Cloud init template to remove FQDN from /etc/hosts
   copy:
