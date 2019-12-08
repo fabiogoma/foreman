@@ -66,8 +66,7 @@
     - { parameter: 'vm.swappiness', value: '1' }
     - { parameter: 'vm.max_map_count', value: '1048575' }
     
-
-- name: Add or modify memlock, both soft and hard, limit for the user cassandra with a comment.
+- name: Modify soft and hard limits for cassandra user.
   pam_limits:
     domain: cassandra
     limit_type: '-'
