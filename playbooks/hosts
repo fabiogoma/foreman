@@ -1,5 +1,5 @@
 [all]
-localhost   ansible_connection=local
+localhost   ansible_connection=local	ansible_user=fabiom
 
 [cassandra]
-cassandra-node[1:5].example.com
+cassandra-node[1:5].example.com	ansible_user=centos
