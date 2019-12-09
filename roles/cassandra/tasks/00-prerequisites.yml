@@ -30,6 +30,8 @@
       - lvm2
       - firewalld
       - jemalloc
+      - wget
+      - unzip
     state: latest
   register: install_dependecies_packages
   until: install_dependecies_packages is not failed
