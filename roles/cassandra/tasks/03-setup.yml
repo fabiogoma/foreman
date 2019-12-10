@@ -1,12 +1,15 @@
 ---
 - name: Load cassandra configuration from template
   template:
-    src: cassandra.yaml.j2
-    dest: /etc/dse/cassandra/cassandra.yaml
+    src: "{{ item.template }}"
+    dest: "{{ item.path }}"
     owner: cassandra
     group: cassandra
     mode: 0644
   notify: Reload systemd configuration and restart cassandra
+  loop:
+    - { template: 'cassandra.yaml.j2', path: '/etc/dse/cassandra/cassandra.yaml' }
+    - { template: 'cassandra-rackdc.properties.j2', path: '/etc/dse/cassandra/cassandra-rackdc.properties' }
 
 - name: Ensure cassandra is up
   systemd:

@@ -984,7 +984,8 @@ cross_node_timeout: false
 #
 # You can use a custom Snitch by setting this to the full class name
 # of the snitch, which will be assumed to be on your classpath.
-endpoint_snitch: com.datastax.bdp.snitch.DseSimpleSnitch
+# endpoint_snitch: com.datastax.bdp.snitch.DseSimpleSnitch
+endpoint_snitch: GossipingPropertyFileSnitch
 
 # controls how often to perform the more expensive part of host score
 # calculation

@@ -32,3 +32,7 @@ select token(tag), tag, video_id, added_date, title from videos_by_tag where vid
 
 -- THIS IS HOW IT SHOULD BE DONE, the query shoul follow the model on yout PRIMARY KEY definition
 select * from videos_by_tag where tag='cassandra' AND video_id=3452f7de-14bd-11e5-855e-8738355b7e3a;
+
+nodetool getendpoints killrvideo videos_by_tag 'cassandra'
+
+nodetool getendpoints killrvideo videos_by_tag 'datastax'
