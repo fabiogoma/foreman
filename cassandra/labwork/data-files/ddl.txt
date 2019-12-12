@@ -1,4 +1,6 @@
 CREATE KEYSPACE killrvideo WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3 }
+CREATE KEYSPACE killrvideo WITH replication = {'class': 'NetworkTopologyStrategy','brazil': 3,'amsterdam': 3 };
+
 
 USE killrvideo;
 
